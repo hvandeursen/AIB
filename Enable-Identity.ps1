@@ -1,14 +1,14 @@
 # Set Variables for the commands
 # Destination image resource group name
-$imageResourceGroup = '<Image Resource Group>'
+$imageResourceGroup = 'bau-image-ne'
 # Azure region
 # Supported Regions East US, East US 2, West Central US, West US, West US 2, North Europe, West Europe
-$location = '<Location>'
+$location = 'North Europe'
 # Get the subscription ID
 $subscriptionID = (Get-AzContext).Subscription.Id
 
 # Get the PowerShell modules
-'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease}
+'AAz.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease}
 
 # Start by creating the Resource Group
 # the identity will need rights to this group
@@ -21,7 +21,7 @@ $imageRoleDefName = "Azure Image Builder Image Def $timeInt"
 $identityName = "myIdentity$timeInt"
 
 # Create the User Identity
-New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $identityName
+New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $identityName -Location $location
 
 # Assign the identity resource and principle ID's to a variable
 $identityNamePrincipalId = (Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $identityName).PrincipalId
