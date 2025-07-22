@@ -76,9 +76,10 @@ Select-Object -Property Name, LastRunStatusRunState, LastRunStatusMessage, Provi
 Start-AzImageBuilderTemplate -ResourceGroupName $imageResourceGroup -Name $imageTemplateName
 
 # Create a VM to test 
-$Cred = Get-Credential 
+# Enter credentials for the VM
+vmadmin$Cred = Get-Credential 
 $ArtifactId = (Get-AzImageBuilderTemplateRunOutput -ImageTemplateName $imageTemplateName -ResourceGroupName $imageResourceGroup).ArtifactId
-New-AzVM -ResourceGroupName $imageResourceGroup -Image $ArtifactId -Name myWinVM01 -Credential $Cred -size Standard_D2_v2
+New-AzVM -ResourceGroupName $imageResourceGroup -Image $ArtifactId -Name myWinVM01 -Credential $Cred -size Standard_D4_v4
 
 # Remove the template deployment
 remove-AzImageBuilderTemplate -ImageTemplateName $imageTemplateName -ResourceGroupName $imageResourceGroup
