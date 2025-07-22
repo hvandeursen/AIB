@@ -77,7 +77,7 @@ Start-AzImageBuilderTemplate -ResourceGroupName $imageResourceGroup -Name $image
 
 # Create a VM to test 
 $Cred = Get-Credential 
-$ArtifactId = (Get-AzImageBuilderRunOutput -ImageTemplateName $imageTemplateName -ResourceGroupName $imageResourceGroup).ArtifactId
+$ArtifactId = (Get-AzImageBuilderTemplateRunOutput -ImageTemplateName $imageTemplateName -ResourceGroupName $imageResourceGroup).ArtifactId
 New-AzVM -ResourceGroupName $imageResourceGroup -Image $ArtifactId -Name myWinVM01 -Credential $Cred -size Standard_D2_v2
 
 # Remove the template deployment
@@ -96,9 +96,9 @@ $pubName = 'MicrosoftWindowsDesktop'
 Get-AzVMImageOffer -Location $location -PublisherName $pubName | ft Offer,PublisherName,Location
 # Set Offer to 'office-365' for images with O365 
 # $offerName = 'office-365'
-$offerName = 'Windows-10'
+$offerName = 'Windows-11'
 Get-AzVMImageSku -Location $location -PublisherName $pubName -Offer $offerName | ft Skus,Offer,PublisherName,Location
-$skuName = '20h1-evd'
+$skuName = 'win11-23h2-avd'
 Get-AzVMImage -Location $location -PublisherName $pubName -Skus $skuName -Offer $offerName
-$version = '19041.572.2010091946'
+$version = '22631.5624.250706'
 Get-AzVMImage -Location $location -PublisherName $pubName -Offer $offerName -Skus $skuName -Version $version
